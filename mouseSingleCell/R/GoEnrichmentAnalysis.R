@@ -1,0 +1,42 @@
+# #####NOTE: This program requires internet access
+
+#' GO_enrichment_function
+#'
+#' @param my_folder folder containing files with gene lists in ensembl or symbol format
+#' @param number_of_terms how many terms to return (use 'Inf' to return everything)
+#' @param list.species currently only mm10 is supported
+#' @param ontology.list ontology types to return (bioprocess, molecular function, or cell compartment)
+#' @param file.pattern grep suffix pattern describing files in folder that contain gene lists
+#' @param outfile.suffix suffix to add to base file name
+#' @param id.type gene ID type (either ensmembl or symbol)
+#' @import GO.db
+#' @return
+#' @export
+#'
+#' @examples
+GO_enrichment_function <- function(my_folder, number_of_terms = Inf, list.species = 'Mm', ontology.list = c('BP', 'MF', 'CC'), file.pattern = '.txt$', outfile.suffix = "-GOAll.txt", id.type = 'ensembl'){
+
+	setwd(my_folder)
+	my_folder <- list.files(path = ".", pattern = file.pattern, full.names = T)
+
+	for(i in my_folder){
+		outfile = gsub(file.pattern, "", basename(i))
+		print("creating ", outfile)
+		genelist<-read.delim(file = i, header = FALSE)
+
+		if(tolower(id.type) == 'ensembl'){
+			# No geneID conversion required -------------------------------------------
+			table_list_entrezIDs <- unlist(mget(x=as.character(genelist$V1), envir=org.Mm.eg.db::org.Mm.egENSEMBL, ifnotfound=NA))
+		}	else if(tolower(id.type) == 'symbol'){
+			# Symbol to Entrez conversion --------------------------------------------
+			table_list_entrezIDs <- unlist(mget(x=as.character(genelist$V1), envir=org.Mm.eg.db::org.Mm.egALIAS2EG, ifnotfound=NA))
+		} else {
+			stop ("ID not recognized")
+		}
+
+		table_list_goana <- limma::goana(table_list_entrezIDs, species=list.species )
+		table_list_GO <- limma::topGO(table_list_goana, ontology=ontology.list, number = number_of_terms)
+		try(write.table(table_list_GO, file=paste(outfile, outfile.suffix, sep = ""), quote = F, row.names = T, sep = "\t"))
+		try(remove(genelist, table_list_entrezIDs, table_list_goana, table_list_GO))
+	}
+}
