@@ -3,6 +3,7 @@
 #' @return
 #' @description Based on Stanford Tutorial at https://web.stanford.edu/class/bios221/labs/rnaseq/lab_4_rnaseq.html
 #' @importFrom tximport tximport
+#' @importFrom DESeq2 DESeqDataSetFromMatrix rlog plotPCA
 #' @import TxDb.Mmusculus.UCSC.mm10.knownGene
 #' @import edgeR
 #' @import colorRamps
@@ -20,9 +21,9 @@
 #'
 #'
 #'
-#' @param file_list
-#' @param dgelist_groups
-#' @param ref_sample
+#' @param file_list Directory containing RSEM files in the format <file>.genes.results
+#' @param dgelist_groups Character vector of sample names (for factor grouping)
+#' @param ref_sample Element from dgelist_groups to define as reference sample
 #'
 #' @export
 runEdgeRAnalysis <- function(file_list, dgelist_groups, ref_sample){
@@ -38,18 +39,6 @@ runEdgeRAnalysis <- function(file_list, dgelist_groups, ref_sample){
 
 	cts <- mstxi$counts
 	colnames(cts)
-
-	normMat <- mstxi$length
-	normMat[normMat == 0] <- 1 # correct for places were RSEM got confused and set length = 0; this is okay because we're looking for 'effective length'
-	normMat <- normMat/exp(rowMeans(log(normMat)))
-	normCts <- cts/normMat
-
-	# Calculate effective library size
-
-	effe_lib_size <- calcNormFactors(normCts) + colSums(normCts)
-
-	normMat <- sweep(normMat, 2, effe_lib_size, "*")
-	normMat <- log(normMat)
 
 	# Set reference sample =-----------------------------------------------------------
 
@@ -107,7 +96,7 @@ runEdgeRAnalysis <- function(file_list, dgelist_groups, ref_sample){
 
 
 
-	# MDS plot (unsupervised) ------------------------------------------------------------
+	# PCA plot ------------------------------------------------------------
 
 	points <- c(rep(19, 26))
 	colors <- c("#080606",
@@ -124,20 +113,34 @@ runEdgeRAnalysis <- function(file_list, dgelist_groups, ref_sample){
 							"#3908b5",
 							"#99e44b")
 
-	plotMDS(x = dgelist, col = colors[dgelist_groups], pch = points[dgelist_groups], cex = 3, method = 'logFC')
-	legend("bottomright", legend = levels(dgelist_groups), pch = points, col = colors, ncol = 1)
 
-	# png(filename = "RNASeq_edgerMDS-CMPandCXonly.png", width = 1600, height = 1600, bg = "transparent", res = 150)
-	# plotMDS(dgelist, col = colors[dgelist_groups], pch = points[dgelist_groups], cex = 3, plot = F)
-	# legend("bottomright", legend = levels(dgelist_groups), pch = points, col = colors, ncol = 1)
-	# dev.off()
+
+	pca.design.matrix <- model.matrix(~ 0 + dgelist$samples$group)
+	colnames(pca.design.matrix) <- levels(dgelist$samples$group)
+	colors <- c('darkviolet', 'cyan2', 'sienna1', 'seagreen3', 'brown4', 'violetred2', 'steelblue2', 'red1', 'darkgreen', 'black', 'royalblue')
+
+
+	edger.dds <- DESeqDataSetFromMatrix(countData = round(dgelist$counts), colData = dgelist$samples, design = pca.design.matrix)
+	transform.edger.dds <- rlog(edger.dds, blind = TRUE)
+	pca.dds <- plotPCA(transform.edger.dds, intgroup = c("group"), returnData = TRUE)
+	percentVar <- round(100*attr(pca.dds, "percentVar"))
+
+	png(filename = 'RNASeq_pcaPlot.png', height = 1600, width = 1600, bg = 'transparent')
+	ggplot(pca.dds, aes(PC1, PC2, color = group)) +
+		geom_point(size = 10) +
+		xlab(paste0("PC1: ", percentVar[1], "% variance")) +
+		ylab(paste0("PC2: ", percentVar[2], "% variance")) +
+		coord_fixed() +
+		scale_color_manual(values = colors)+
+		theme_linedraw()
+	dev.off()
+
 
 
 	# Plot MDS 3D -------------------------------------------------------------
 
 
 
-	png(filename = 'RNA_noMatGran_3dPCAcpm5co.png', width = 1600, height = 1600, bg = 'transparent')
 	scatterplot3d::scatterplot3d(mds.dim,
 															 color = colors[dgelist_groups],
 															 pch = points[dgelist_groups],
@@ -149,7 +152,6 @@ runEdgeRAnalysis <- function(file_list, dgelist_groups, ref_sample){
 															 main = 'RNA_noMatGran_3dPCA',
 															 angle = 215)
 	legend("topright", legend = levels(dgelist_groups), pch = points, col = colors, ncol = 1, pt.cex = 5, cex = 4)
-	dev.off()
 
 	coordinatesq<- scatterplot3d::scatterplot3d(mds.dim,
 																							color = colors[dgelist_groups],
@@ -172,7 +174,7 @@ runEdgeRAnalysis <- function(file_list, dgelist_groups, ref_sample){
 															 grid = T, box = F,
 															 type = 'h',
 															 xlab = 'Coordinate1', ylab = 'Coordinate2', zlab = 'Coordinate3',
-															 main = 'RNA_noMatGran_3dPCA',
+															 main = 'RNA_3dPCA',
 															 angle = 215)
 	dev.off()
 
