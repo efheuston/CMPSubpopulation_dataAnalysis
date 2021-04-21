@@ -10,7 +10,6 @@
 #' @return
 #' @export
 #'
-#' @examples
 gsea_ranking <- function(lrt, outname, FDRmax = 0.05){
 	all.topTags <- topTags(lrt, n = nrow(lrt$table))$table
 	all.topTags <- all.topTags[all.topTags$FDR <= FDRmax,]

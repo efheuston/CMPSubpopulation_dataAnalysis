@@ -7,17 +7,11 @@
 runMonocleAnalysis(args)
 }
 \arguments{
-\item{args}{list of arguments passed to runMonocleAnalysis function}
+\item{args}{list of arguments passed to runMonocleAnalysis function (seurat_object_filename, num_dim, cca_variables)}
 }
 \value{
 
 }
 \description{
 runMonocleAnalysis
-}
-\examples{
-\dontrun{
-args <- c('--seurat_object_filename runSeuratAnalysis.rds --num_dim 20 --cca_variables "~nUMI + nGene" "')
-runMonocleAnalysis(args)
-}
 }

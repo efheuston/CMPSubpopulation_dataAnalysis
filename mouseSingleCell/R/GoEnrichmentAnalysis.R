@@ -13,7 +13,6 @@
 #' @return
 #' @export
 #'
-#' @examples
 GO_enrichment_function <- function(my_folder, number_of_terms = Inf, list.species = 'Mm', ontology.list = c('BP', 'MF', 'CC'), file.pattern = '.txt$', outfile.suffix = "-GOAll.txt", id.type = 'ensembl'){
 
 	setwd(my_folder)

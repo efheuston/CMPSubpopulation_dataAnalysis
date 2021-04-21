@@ -4,7 +4,6 @@
 #'
 #' @return
 #'
-#' @examples
 read_monocle_args <-function(args){
 	args<-paste(unlist(args), collapse = " ")
 	args<-unlist(strsplit(args, "--"))[-1]

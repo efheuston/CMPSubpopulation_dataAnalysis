@@ -18,6 +18,8 @@ emphasis_plots_PCA(
 
 \item{file_suffix}{name to add to end of file}
 
+\item{iterationSlot}{what to iterate over (i.e., dimensions)}
+
 \item{background_color}{color to give non-emphasized pops}
 
 \item{emphasis_color}{color to give emphasized pops}

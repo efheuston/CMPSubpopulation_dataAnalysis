@@ -46,7 +46,7 @@ library(devtools)
 
 install project package mouseSingleCell
 ```{r}
-
+devtools::install_local("/Users/heustonef/Desktop/Github/MouseSingleCellPaper/mouseSingleCell/")
 ```
 
 

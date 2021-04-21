@@ -3,12 +3,11 @@
 #' @description generate expression lists for gene set enrichment analysis
 #' @import edgeR
 #'
-#' @param bulk.contrasts
+#' @param bulk.contrasts set of contrasts to make
 #'
 #' @return
 #' @export
 #'
-#' @examples
 bulk_population_expression_sets <- function(bulk.contrasts){
 	for(i in 1:(ncol(bulk.contrasts))){
 		outname <- names(bulk.contrasts[1,])[i]

@@ -1,19 +1,18 @@
 #' runMonocleAnalysis
 #'
-#' @param args list of arguments passed to runMonocleAnalysis function
+#' @param args list of arguments passed to runMonocleAnalysis function (seurat_object_filename, num_dim, cca_variables)
 #'
 #' @return
 #' @export
 #' @import Seurat
 #' @import monocle
-#' @import pylr
+#' @import plyr
 #' @import dplyr
 #' @import colorRamps
 #' @import stringr
 #' @import future
 #' @import R.utils
 #'
-#' @examples
 #' \dontrun{
 #' args <- c('--seurat_object_filename runSeuratAnalysis.rds --num_dim 20 --cca_variables "~nUMI + nGene" "')
 #' runMonocleAnalysis(args)

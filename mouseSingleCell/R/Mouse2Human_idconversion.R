@@ -5,7 +5,6 @@
 #' @return
 #' @export
 #'
-#' @examples
 Mouse2Human <- function(MouseGenes){
 	human = useMart("ensembl", dataset = "hsapiens_gene_ensembl")
 	mouse = useMart("ensembl", dataset = "mmusculus_gene_ensembl")

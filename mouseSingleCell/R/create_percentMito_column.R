@@ -4,7 +4,6 @@
 #'
 #' @return
 #'
-#' @examples
 create_percentMito_column<-function(my_object){
 	mito.genes<-grep(pattern = "^MT-", x = rownames(x=my_object@data), value = TRUE, ignore.case = TRUE)
 	percent.mito <-Matrix::colSums(my_object@raw.data[mito.genes,])/Matrix::colSums(my_object@raw.data)

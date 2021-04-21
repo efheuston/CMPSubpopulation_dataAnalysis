@@ -2,7 +2,6 @@
 #'
 #' @return
 #'
-#' @examples
 #'
 read_seurat_args<-function(){
 	args<-paste(unlist(args), collapse = " ")

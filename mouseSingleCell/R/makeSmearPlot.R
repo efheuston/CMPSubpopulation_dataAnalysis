@@ -8,7 +8,6 @@
 #' @return
 #' @export
 #'
-#' @examples
 makeSmearPlot <- function(lrt, nameA = 'nameA', nameB = 'CMP', fc = FC, outname = outname){
 
 	outname <- paste(nameA, 'vs', nameB, sep = '')

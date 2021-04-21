@@ -12,6 +12,3 @@ read_seurat_args()
 \description{
 read_seurat_args
 }
-\examples{
-
-}

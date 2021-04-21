@@ -1,7 +1,6 @@
 #' runEdgeRAnalysis
 #'
 #' @return
-#' @description Based on Stanford Tutorial at https://web.stanford.edu/class/bios221/labs/rnaseq/lab_4_rnaseq.html
 #' @importFrom tximport tximport
 #' @importFrom DESeq2 DESeqDataSetFromMatrix rlog plotPCA
 #' @import TxDb.Mmusculus.UCSC.mm10.knownGene
@@ -12,7 +11,6 @@
 #' @import biomaRt
 #' @import ggrepel
 #'
-#' @examples
 #' \dontrun{
 #' file_list <- c(list.files(pattern = '_R', ignore.case = FALSE, recursive = FALSE, include.dirs = FALSE), list.files(pattern = '^CMP', recursive = FALSE, include.dirs = FALSE))
 # 'names(file_list) <- lapply(file_list, function(x) gsub('.genes.results', '', x))
@@ -21,7 +19,7 @@
 #'
 #'
 #'
-#' @param file_list Directory containing RSEM files in the format <file>.genes.results
+#' @param file_list Directory containing RSEM files in the format "<file>.genes.results"
 #' @param dgelist_groups Character vector of sample names (for factor grouping)
 #' @param ref_sample Element from dgelist_groups to define as reference sample
 #'

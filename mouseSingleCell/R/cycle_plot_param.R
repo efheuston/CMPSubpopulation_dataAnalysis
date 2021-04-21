@@ -6,7 +6,6 @@
 #'
 #' @return
 #'
-#' @examples
 cycle_plot_param<-function(plotting_function, cycle_parameter, the_object){
 	# Create color pallete
 	basic_color_palette<-basic_color_palette[1:25]

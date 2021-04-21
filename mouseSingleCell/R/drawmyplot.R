@@ -7,7 +7,6 @@
 #'
 #' @return
 #'
-#' @examples
 drawmyplot<-function(geneList, tsne.obj, name){
 	for(gene in geneList){
 		png(filename=paste("ViolinPlots/", name, "-Vln_",gene, ".png", sep=""), width=800, heigh=800)

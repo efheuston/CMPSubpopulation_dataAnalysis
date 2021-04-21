@@ -7,7 +7,7 @@
 runEdgeRAnalysis(file_list, dgelist_groups, ref_sample)
 }
 \arguments{
-\item{file_list}{Directory containing RSEM files in the format <file>.genes.results}
+\item{file_list}{Directory containing RSEM files in the format "<file>.genes.results"}
 
 \item{dgelist_groups}{Character vector of sample names (for factor grouping)}
 
@@ -17,14 +17,5 @@ runEdgeRAnalysis(file_list, dgelist_groups, ref_sample)
 
 }
 \description{
-Based on Stanford Tutorial at https://web.stanford.edu/class/bios221/labs/rnaseq/lab_4_rnaseq.html
-}
-\examples{
-\dontrun{
-file_list <- c(list.files(pattern = '_R', ignore.case = FALSE, recursive = FALSE, include.dirs = FALSE), list.files(pattern = '^CMP', recursive = FALSE, include.dirs = FALSE))
-runEdgeRAnalysis(file_list)
-}
-
-
-
+runEdgeRAnalysis
 }

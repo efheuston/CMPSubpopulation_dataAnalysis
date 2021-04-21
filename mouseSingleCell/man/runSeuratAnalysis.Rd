@@ -7,17 +7,11 @@
 runSeuratAnalysis(args)
 }
 \arguments{
-\item{args}{}
+\item{args}{list of arguments (data, project name, genome, max_pcs, resolutionList, perform_cca, vars_to_regress)}
 }
 \value{
 
 }
 \description{
 runSeuratAnalysis
-}
-\examples{
-\dontrun{
-args <- c('--data CMP-m1 CMP-m2 --projectName CMP12k_vs_CMP3k --genome mm10 --max_pcs 25 --resolutionList 0.6 --perform_cca FALSE --vars_to_regress nUMI nGene orig.ident')
-runSeuratAnalysis(args)
-}
 }

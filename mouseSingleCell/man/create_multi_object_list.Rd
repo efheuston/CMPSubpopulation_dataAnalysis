@@ -15,8 +15,3 @@ create_multi_object_list(x)
 \description{
 create_multi_object_list
 }
-\examples{
-
-
-
-}

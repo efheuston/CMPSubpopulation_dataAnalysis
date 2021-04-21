@@ -7,7 +7,13 @@
 png_plotFunction(plot_to_make = x, filename = y, height = 800, width = 800)
 }
 \arguments{
-\item{width}{}
+\item{plot_to_make}{plot function}
+
+\item{filename}{filename to for saved plot}
+
+\item{height}{png height (px)}
+
+\item{width}{png width (px)}
 }
 \value{
 
