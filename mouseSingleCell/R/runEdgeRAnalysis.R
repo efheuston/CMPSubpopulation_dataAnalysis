@@ -10,20 +10,12 @@
 #' @import ggplot2
 #' @import biomaRt
 #' @import ggrepel
-#'
-#' \dontrun{
-#' file_list <- c(list.files(pattern = '_R', ignore.case = FALSE, recursive = FALSE, include.dirs = FALSE), list.files(pattern = '^CMP', recursive = FALSE, include.dirs = FALSE))
-# 'names(file_list) <- lapply(file_list, function(x) gsub('.genes.results', '', x))
-#' runEdgeRAnalysis(file_list)
-#'	}
-#'
-#'
-#'
 #' @param file_list Directory containing RSEM files in the format "<file>.genes.results"
 #' @param dgelist_groups Character vector of sample names (for factor grouping)
 #' @param ref_sample Element from dgelist_groups to define as reference sample
 #'
 #' @export
+
 runEdgeRAnalysis <- function(file_list, dgelist_groups, ref_sample){
 
 	# Tximport -------------------------------------------------------------------

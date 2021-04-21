@@ -13,10 +13,6 @@
 #' @import future
 #' @import R.utils
 #'
-#' \dontrun{
-#' args <- c('--seurat_object_filename runSeuratAnalysis.rds --num_dim 20 --cca_variables "~nUMI + nGene" "')
-#' runMonocleAnalysis(args)
-#'	}
 
 runMonocleAnalysis <- function(args){
 
