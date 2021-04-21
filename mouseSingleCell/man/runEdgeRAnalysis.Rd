@@ -7,7 +7,11 @@
 runEdgeRAnalysis(file_list, dgelist_groups, ref_sample)
 }
 \arguments{
-\item{ref_sample}{}
+\item{file_list}{Directory containing RSEM files in the format <file>.genes.results}
+
+\item{dgelist_groups}{Character vector of sample names (for factor grouping)}
+
+\item{ref_sample}{Element from dgelist_groups to define as reference sample}
 }
 \value{
 

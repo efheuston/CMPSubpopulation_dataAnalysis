@@ -165,7 +165,7 @@ runEdgeRAnalysis <- function(file_list, dgelist_groups, ref_sample){
 																							angle = 215)
 
 
-	png(filename = 'RNA_noMatGran_3dPCA-noLegend.png', width = 1600, height = 1600, bg = 'transparent')
+	png(filename = 'RNA_3dPCA-noLegend.png', width = 1600, height = 1600, bg = 'transparent')
 	scatterplot3d::scatterplot3d(mds.dim,
 															 color = colors[dgelist_groups],
 															 pch = points[dgelist_groups],
