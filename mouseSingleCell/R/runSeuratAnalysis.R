@@ -5,10 +5,8 @@
 #' @return
 #' @export
 #' @import Seurat
-#' @import dplyr
-#' @import colorRamps
 #' @import parallel
-#' @import future
+#' @importFrom future availableCores
 #' @import R.utils
 #'
 

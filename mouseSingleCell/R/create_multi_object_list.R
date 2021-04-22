@@ -1,14 +1,13 @@
 #' create_multi_object_list
 #'
 #' @param x directory containing barcode, gene, and matrix files along the path /outs/filtered_feature_bc_matrix/
-#'
+#' @import Seurat
 #' @return
 #'
 #'
 #'
 #'
 
-## hard coded for cellranger >= v3.0.0
 
 
 create_multi_object_list<-function(x){

@@ -7,7 +7,7 @@
 read_10XGenomics_data(x)
 }
 \arguments{
-\item{x}{directory containing gene, barcode, and matrix files along the path "/outs/filtered_gene_bc_matrices/<genome>"}
+\item{x}{directory containing gene, barcode, and matrix files along the path}
 }
 \value{
 

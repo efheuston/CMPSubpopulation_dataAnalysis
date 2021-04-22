@@ -3,7 +3,8 @@
 #' @param plotting_function oneof type "cluster", "trajectory", "qplot"
 #' @param cycle_parameter the number of colors needed
 #' @param the_object monocle object
-#'
+#' @import monocle
+#' @import ggplot2
 #' @return
 #'
 cycle_plot_param<-function(plotting_function, cycle_parameter, the_object){

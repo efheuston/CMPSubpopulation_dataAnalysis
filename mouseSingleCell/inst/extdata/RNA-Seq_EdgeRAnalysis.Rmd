@@ -34,19 +34,20 @@ Transcriptome alignments were performed in STAR, and read estimation performed i
 
 ### Load libraries
 
-```{r}
+```{r, setup, include=FALSE}
+knitr::opts_knit$set(root.dir = '~/Desktop/scRNAanalysis_codetest/RSEM_resultsFiles/')
+```
+
+
+```{r, message=FALSE}
 library(tximport)
 library(TxDb.Mmusculus.UCSC.mm10.knownGene)
 library(edgeR)
 library(colorRamps)
 library(org.Mm.eg.db)
 library(ggplot2)
-library(devtools)
-```
-
-install project package mouseSingleCell
-```{r}
-devtools::install_local("/Users/heustonef/Desktop/Github/MouseSingleCellPaper/mouseSingleCell/")
+library(mouseSingleCell)
+library(scatterplot3d)
 ```
 
 
@@ -62,7 +63,7 @@ file_list
 
 Import rsem counts files 
 
-```{r}
+```{r, warning=FALSE}
 mstxi <- tximport::tximport(files = file_list, type = 'rsem', txIn = FALSE, txOut = FALSE, geneIdCol = 3)
 cts <- mstxi$counts
 colnames(cts)
@@ -84,7 +85,7 @@ Annotate with gene symbols
 
 
 ```{r}
-mmusculus_genes <- read.table('Mm_gene_conversion_IDs.txt', sep = '\t', header = TRUE)
+mmusculus_genes <- mouseSingleCell::mmusculus_genes
 
 # create the conversion table
 Mouse2HumanTable <- Mouse2Human(MouseGenes = mmusculus_genes$mgi_symbol)

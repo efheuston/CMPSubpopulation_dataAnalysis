@@ -2,13 +2,14 @@
 #'
 #' @param MouseGenes list of mouse genes
 #' @description Credits mainly to Dave Tang's blog (https://www.biostars.org/p/147484/)
+#' @importFrom biomaRt useMart getLDS
 #' @return
 #' @export
 #'
 Mouse2Human <- function(MouseGenes){
-	human = useMart("ensembl", dataset = "hsapiens_gene_ensembl")
-	mouse = useMart("ensembl", dataset = "mmusculus_gene_ensembl")
-	genesMousetoHuman = getLDS(attributes = c("ensembl_gene_id","mgi_symbol", "entrezgene_id"),
+	human = biomaRt::useMart("ensembl", dataset = "hsapiens_gene_ensembl")
+	mouse = biomaRt::useMart("ensembl", dataset = "mmusculus_gene_ensembl")
+	genesMousetoHuman = biomaRt::getLDS(attributes = c("ensembl_gene_id","mgi_symbol", "entrezgene_id"),
 														 filters = "mgi_symbol",
 														 values = MouseGenes ,
 														 mart = mouse,

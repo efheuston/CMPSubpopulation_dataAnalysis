@@ -6,11 +6,11 @@
 #' @import TxDb.Mmusculus.UCSC.mm10.knownGene
 #' @import edgeR
 #' @import colorRamps
-#' @import org.Mm.eg.db
 #' @import ggplot2
-#' @import biomaRt
-#' @import ggrepel
-#' @param file_list Directory containing RSEM files in the format "<file>.genes.results"
+#' @importFrom biomaRt useMart getBM
+#' @importFrom ggrepel geom_label_repel
+#' @importFrom scatterplot3d scatterplot3d
+#' @param file_list Directory containing RSEM files in the format
 #' @param dgelist_groups Character vector of sample names (for factor grouping)
 #' @param ref_sample Element from dgelist_groups to define as reference sample
 #'
@@ -48,9 +48,9 @@ runEdgeRAnalysis <- function(file_list, dgelist_groups, ref_sample){
 
 	# Add gene synonyms -------------------------------------
 
-	mmusculus_genes <- biomaRt::getBM(attributes = c("ensembl_gene_id", "mgi_symbol", "entrezgene_id"),
-													 mart = useMart("ensembl", dataset = "mmusculus_gene_ensembl"),
-													 useCache = FALSE)
+	# mmusculus_genes <- biomaRt::getBM(attributes = c("ensembl_gene_id", "mgi_symbol", "entrezgene_id"),
+	# 												 mart = useMart("ensembl", dataset = "mmusculus_gene_ensembl"),
+	# 												 useCache = FALSE)
 
 
 	# create the conversion table
@@ -188,9 +188,6 @@ runEdgeRAnalysis <- function(file_list, dgelist_groups, ref_sample){
 	designMat
 
 	# Apply GLM dispersion ------------------------------------------------------------
-
-	dgelist <- estimateGLMCommonDisp(dgelist, designMat)
-	dgelist <- estimateGLMTrendedDisp(dgelist, designMat, method = 'bin.spline')
 	dgelist <- estimateGLMTagwiseDisp(dgelist, designMat)
 
 	# GLM differential expression testing ------------------------------------------------------------
@@ -199,7 +196,7 @@ runEdgeRAnalysis <- function(file_list, dgelist_groups, ref_sample){
 	lrt.c10 <-  glmLRT(fit, coef = 2)
 	de.c10 <- decideTestsDGE(lrt.c10, adjust.method = 'BH', p.value = 0.05)
 	detags.c10 <- rownames(dgelist)[as.logical(de.c10)]
-	plotSmear(lrt.c10, de.tags = detags.c10)
+	edgeR::plotSmear(lrt.c10, de.tags = detags.c10)
 	abline(h =  c(-2, 2), col = 'blue')
 	goana.table <- goana(lrt.c10[row.names(lrt.c10) %in% detags.c10,], species = "Mm")
 	topgo.table <- topGO(goana.table, ontology = c("BP", "MF"), number = Inf)
@@ -423,6 +420,8 @@ runEdgeRAnalysis <- function(file_list, dgelist_groups, ref_sample){
 		de.summary <- summary(decideTests(lrt,adjust.method = 'BH', p.value = 0.05, lfc = log2(1.5)))
 
 		# Create plot
+
+		my.plot <- makeSmearPlot(lrt$table, nameA = outname, nameB = "CMP",)
 		my.plot <- ggplot(data = lrt$table, mapping = aes(x = logCPM,  y = logFC)) +
 			geom_point(alpha = 0.3) +
 			geom_point(data = gene.labels, aes(x = logCPM, y = logFC), color = 'red') +

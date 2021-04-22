@@ -4,7 +4,8 @@
 #' @param nameA comparison string to describe A
 #' @param nameB comparison string to describe  B
 #' @param fc fold-change threshold
-#' @import ggrepel
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggrepel geom_label_repel
 #' @return
 #' @export
 #'
@@ -23,7 +24,7 @@ makeSmearPlot <- function(lrt, nameA = 'nameA', nameB = 'CMP', fc = FC, outname 
 	de.summary <- summary(decideTests(lrt,adjust.method = 'BH', p.value = 0.05, lfc = log2(fc)))
 
 	# Create plot
-	my.plot <- ggplot(data = lrt$table, mapping = aes(x = logCPM,  y = logFC)) +
+	my.plot <- ggplot2::ggplot(data = lrt$table, mapping = aes(x = logCPM,  y = logFC)) +
 		geom_point(alpha = 0.3) +
 		geom_point(data = gene.labels, aes(x = logCPM, y = logFC), color = 'red') +
 		geom_text_repel(data = gene.labels, mapping = aes(x = logCPM, y = logFC, label = Symbol), size = 7) +

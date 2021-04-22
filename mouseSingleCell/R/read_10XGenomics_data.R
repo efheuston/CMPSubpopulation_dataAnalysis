@@ -1,6 +1,6 @@
 #' read_10XGenomics_data
 #'
-#' @param x directory containing gene, barcode, and matrix files along the path "/outs/filtered_gene_bc_matrices/<genome>"
+#' @param x directory containing gene, barcode, and matrix files along the path
 #'
 #' @return
 #'

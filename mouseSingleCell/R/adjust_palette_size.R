@@ -1,7 +1,7 @@
 #' adjust_palette_size
 #'
 #' @param object_length Num of parameters to color
-#'
+#' @importFrom colorRamps primary.colors
 #' @return
 #' @export
 #'
@@ -32,9 +32,8 @@ adjust_palette_size <- function(object_length, basic_color_palette = c("#cb4bbe"
 																																			 "#a2c1a3")){
 	if(length(unique(object_length)) > length(basic_color_palette)){
 		new_length <- length(unique(object_length)) - length(basic_color_palette)
-		my_palette <- c(basic_color_palette, primary.colors(new_length))
+		my_palette <- c(basic_color_palette, colorRamps::primary.colors(new_length))
 	} else {
 		my_palette <- basic_color_palette
 	}
 }
-

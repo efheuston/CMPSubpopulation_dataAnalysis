@@ -1,7 +1,8 @@
 #' create_percentMito_column
 #'
 #' @param my_object object of Seurat class <=v2.4.3
-#'
+#' @importFrom Matrix colSums
+#' @import Seurat
 #' @return
 #'
 create_percentMito_column<-function(my_object){

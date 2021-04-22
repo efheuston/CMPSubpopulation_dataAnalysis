@@ -6,11 +6,7 @@
 #' @export
 #' @import Seurat
 #' @import monocle
-#' @import plyr
-#' @import dplyr
-#' @import colorRamps
-#' @import stringr
-#' @import future
+#' @importFrom future availableCores
 #' @import R.utils
 #'
 

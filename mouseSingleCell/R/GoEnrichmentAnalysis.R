@@ -9,7 +9,8 @@
 #' @param file.pattern grep suffix pattern describing files in folder that contain gene lists
 #' @param outfile.suffix suffix to add to base file name
 #' @param id.type gene ID type (either ensmembl or symbol)
-#' @import GO.db
+#' @importFrom limma goana topGO
+#' @importFrom org.Mm.eg.db org.Mm.egENSEMBL org.Mm.egALIAS2EG
 #' @return
 #' @export
 #'
