@@ -1,0 +1,211 @@
+---
+title: "Bulk RNA-Seq analysis"
+output: html_notebook
+author: Elisabeth F. Heuston
+---
+
+Analysis of mouse single cell hematopoietic populations - RNA-Seq anaysis
+
+Single cell transcriptional and clustering analysis of LSK, CMP, MEP, and GMP data presented in Heuston et al., 2021  
+
+This notebook contains the R workflow to analyze bulk RNS-Seq data and pertains to:
+* Figure 6A
+* Supplemental Figure 7A
+
+Raw data for this publication are available to download from the GEO Project GSE168260 at https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE168260  
+Raw data previously published in Heuston et al., 2018, is available to download from www.usevision.org
+
+## Principal component analysis of hematopoietic RNA-Seq profiles
+
+Transcriptional comparison of 11 populations. Each sample was sequenced in duplicate.  
+* LSK  
+* CMP  
+* GMP  
+* CFU-E  
+* CFU-Mk  
+* EB  
+* MK  
+* C10  
+* C11  
+* C17  
+* C3  
+
+Transcriptome alignments were performed in STAR, and read estimation performed in RSEM. 
+
+### Load libraries
+
+```{r, setup, include=FALSE}
+knitr::opts_knit$set(root.dir = '~/Desktop/scRNAanalysis_codetest/RSEM_resultsFiles/')
+```
+
+
+```{r, message=FALSE}
+library(tximport)
+library(TxDb.Mmusculus.UCSC.mm10.knownGene)
+library(edgeR)
+library(colorRamps)
+library(org.Mm.eg.db)
+library(ggplot2)
+library(mouseSingleCell)
+library(scatterplot3d)
+```
+
+
+RSEM genes.results files are stored together in "RSEM_resultsFiles"
+
+```{r}
+
+file_list <- list.files(pattern = 'genes.results', ignore.case = FALSE, recursive = FALSE, include.dirs = FALSE)
+names(file_list) <- lapply(file_list, function(x) gsub('.genes.results', '', x))
+file_list
+```
+
+
+Import rsem counts files 
+
+```{r, warning=FALSE}
+mstxi <- tximport::tximport(files = file_list, type = 'rsem', txIn = FALSE, txOut = FALSE, geneIdCol = 3)
+cts <- mstxi$counts
+colnames(cts)
+```
+
+Set CMP as reference sample
+
+```{r}
+dgelist_groups <- factor(c('C10', 'C10', 'C11', 'C11', 'C17', 'C17', 'C3s', 'C3s', 'CFUE', 'CFUE', 'CFUMK', 'CFUMK', 'CMP', 'CMP', 'ERY', 'ERY', 'GMP', 'GMP', 'LSK', 'LSK', 'MK', 'MK'))
+
+dgelist_groups <- relevel(dgelist_groups, ref = "CMP")
+dgelist <- DGEList(counts = cts, group = dgelist_groups)
+apply(dgelist$counts, 2, sum)
+keep <- rowSums(cpm(dgelist) > 5) >=2
+dgelist <- dgelist[keep,]
+```
+
+Annotate with gene symbols
+
+
+```{r}
+mmusculus_genes <- mouseSingleCell::mmusculus_genes
+
+# create the conversion table
+Mouse2HumanTable <- Mouse2Human(MouseGenes = mmusculus_genes$mgi_symbol)
+
+# Convert symbol column ot dgelist
+symbol = rownames(dgelist$counts)
+dgelist$genes <- data.frame(Symbol = symbol)
+
+# Add Hs homologue to dgelist
+HsHmlg <- with(Mouse2HumanTable, Mouse2HumanTable$HGNC[match(row.names(dgelist), Mouse2HumanTable$MGI)])
+dgelist$genes$HsHmlg <- HsHmlg
+dgelist$genes$HsHmlg[dgelist$genes$HsHmlg == ""] <- NA
+
+# Convert row names to entrez gene ID
+entrezid <- with(Mouse2HumanTable, Mouse2HumanTable$Entrez.Gene_ID[match(row.names(dgelist), Mouse2HumanTable$MGI)])
+entrezid[is.na(entrezid)] <- 'not_mapped'
+rownames(dgelist$counts) <- entrezid
+dgelist <- dgelist[!(row.names(dgelist) %in% 'not_mapped'), ] # get rid of unmapped entrez ids
+```
+
+Calculate library size 
+
+```{r}
+dgelist$samples$lib.size <- colSums(dgelist$counts)
+dgelist <- calcNormFactors(dgelist)
+
+```
+Figure 5A: PCA plot 
+
+```{r}	
+
+cts <- DESeq2::rlog(round(mstxi$counts), blind = TRUE)
+pca.cts <- prcomp(t(cts))
+
+scores=data.frame(pca.cts$x)
+cols=ncol(scores)
+scores=data.frame(scores,dgelist_groups)
+colnames(scores)[cols+1]="cell"
+colors <- c('darkviolet', 'cyan2', 'sienna1', 'seagreen3', 'brown4', 'violetred2', 'steelblue2', 'red1', 'darkgreen', 'black', 'royalblue')
+points <- c(rep(19, 26))
+
+scatterplot3d(scores[,1:3],
+							color = colors[dgelist_groups],
+							pch = points[dgelist_groups],
+							lwd = 4,
+							cex.symbols = 8,
+							grid = T, box = F,
+							type = 'h',
+							xlab = 'PC1', ylab = 'PC2', zlab = 'PC3',
+							main = 'RNA_noMatGran_3dPCA',
+							angle = 215)
+legend("topright", legend = levels(dgelist_groups), pch = points, col = colors, ncol = 1, pt.cex = 5, cex = 4)
+
+```
+
+
+Generate LSK, CMP, GMP, EB, MK gene sets
+
+```{r}
+bulk.contrasts <- makeContrasts(ERYvCMP = ERY - CMP, 
+																ERYvGMP = ERY - GMP, 
+																ERYvLSK = ERY - LSK, 
+																ERYvMK = ERY - MK,
+																
+																GMPvCMP = GMP - CMP, 
+																GMPvERY = GMP - ERY, 
+																GMPvLSK = GMP - LSK, 
+																GMPvMK = GMP - MK,
+																
+																LSKvCMP = LSK - CMP, 
+																LSKvGMP = LSK - GMP, 
+																LSKvERY = LSK - ERY, 
+																LSKvMK = LSK - MK,
+																
+																MKvCMP = MK - CMP, 
+																MKvGMP = MK - GMP, 
+																MKvLSK = MK - LSK, 
+																MKvERY = MK - ERY,
+																
+																CMPvERY = CMP - ERY, 
+																CMPvGMP = CMP - GMP, 
+																CMPvLSK = CMP - LSK, 
+																CMPvMK = CMP - MK,
+																
+																levels = designMat)
+
+
+bulk_population_expression_sets(bulk.contrasts)
+```
+
+
+
+
+create ranked gene files for CMP subpopulations
+
+```{r}
+
+lrt.c10 <-  glmLRT(fit, coef = 2)
+gsea_ranking(lrt.c10, 'c10vCMP')
+gsea_ranking(lrt.c10, 'c10vCMP_2FC')
+
+lrt.c11 <-  glmLRT(fit, coef = 3)
+gsea_ranking(lrt.c11, 'c11vCMP')
+gsea_ranking(lrt.c11, 'c11vCMP_2FC')
+
+lrt.c17 <-  glmLRT(fit, coef = 4)
+gsea_ranking(lrt.c17, 'c17vCMP')
+gsea_ranking(lrt.c17, 'c17vCMP_2FC')
+
+lrt.c3s <-  glmLRT(fit, coef = 5)
+gsea_ranking(lrt.c3s, 'c3svCMP')
+gsea_ranking(lrt.c3s, 'c3svCMP_2FC')
+```
+
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
