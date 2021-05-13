@@ -18,6 +18,6 @@ bulk_population_expression_sets <- function(bulk.contrasts){
 		all.topTags <- all.topTags[all.topTags$FDR <= 0.05,]
 		all.topTags$ranking <- all.topTags$logFC * -log10(all.topTags$FDR)
 		all.topTags<-all.topTags$Symbol
-		data[,ncol(data) + 1] <- new
+		# data[,ncol(data) + 1] <- new
 	}
 }
