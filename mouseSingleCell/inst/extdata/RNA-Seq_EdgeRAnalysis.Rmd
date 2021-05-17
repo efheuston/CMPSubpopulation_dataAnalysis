@@ -39,7 +39,7 @@ knitr::opts_knit$set(root.dir = '~/Desktop/scRNAanalysis_codetest/RSEM_resultsFi
 ```
 
 
-```{r, message=FALSE}
+```{r, warning=FALSE}
 library(tximport)
 library(TxDb.Mmusculus.UCSC.mm10.knownGene)
 library(edgeR)
@@ -81,25 +81,22 @@ dgelist <- dgelist[keep,]
 ```
 
 Annotate with gene symbols
-
-
 ```{r}
-mmusculus_genes <- mouseSingleCell::mmusculus_genes
 
-# create the conversion table
-Mouse2HumanTable <- Mouse2Human(MouseGenes = mmusculus_genes$mgi_symbol)
+
+mouseIDTable <- Mouse2Human(MouseGenes = mouseIDTable$MGI)
 
 # Convert symbol column ot dgelist
 symbol = rownames(dgelist$counts)
 dgelist$genes <- data.frame(Symbol = symbol)
 
 # Add Hs homologue to dgelist
-HsHmlg <- with(Mouse2HumanTable, Mouse2HumanTable$HGNC[match(row.names(dgelist), Mouse2HumanTable$MGI)])
+HsHmlg <- with(mouseIDTable, mouseIDTable$HGNC[match(row.names(dgelist), mouseIDTable$MGI)])
 dgelist$genes$HsHmlg <- HsHmlg
 dgelist$genes$HsHmlg[dgelist$genes$HsHmlg == ""] <- NA
 
 # Convert row names to entrez gene ID
-entrezid <- with(Mouse2HumanTable, Mouse2HumanTable$Entrez.Gene_ID[match(row.names(dgelist), Mouse2HumanTable$MGI)])
+entrezid <- with(mouseIDTable, mouseIDTable$Entrez.Gene_ID[match(row.names(dgelist), mouseIDTable$MGI)])
 entrezid[is.na(entrezid)] <- 'not_mapped'
 rownames(dgelist$counts) <- entrezid
 dgelist <- dgelist[!(row.names(dgelist) %in% 'not_mapped'), ] # get rid of unmapped entrez ids
@@ -129,7 +126,7 @@ scatterplot3d(scores[,1:3],
 							color = colors[dgelist_groups],
 							pch = points[dgelist_groups],
 							lwd = 4,
-							cex.symbols = 8,
+							cex.symbols = 4,
 							grid = T, box = F,
 							type = 'h',
 							xlab = 'PC1', ylab = 'PC2', zlab = 'PC3',
@@ -211,10 +208,10 @@ symbol = rownames(dgelist$counts)
 dgelist$genes <- data.frame(Symbol = symbol)
 
 # Add Hs homologue to dgelist
-HsHmlg <- with(Mouse2HumanTable, Mouse2HumanTable$HGNC[match(row.names(dgelist), Mouse2HumanTable$MGI)])
+HsHmlg <- with(mouseIDTable, mouseIDTable$HGNC[match(row.names(dgelist), mouseIDTable$MGI)])
 dgelist$genes$HsHmlg <- HsHmlg
 dgelist$genes$HsHmlg[dgelist$genes$HsHmlg == ""] <- NA
-entrezid <- with(Mouse2HumanTable, Mouse2HumanTable$Entrez.Gene_ID[match(row.names(dgelist), Mouse2HumanTable$MGI)])
+entrezid <- with(mouseIDTable, mouseIDTable$Entrez.Gene_ID[match(row.names(dgelist), mouseIDTable$MGI)])
 entrezid[is.na(entrezid)] <- 'not_mapped'
 rownames(dgelist$counts) <- entrezid
 dgelist <- dgelist[!(row.names(dgelist) %in% 'not_mapped'), ] # get rid of unmapped entrez ids
@@ -232,10 +229,12 @@ Figure S7C
 csvcmp.cpm <-cpmByGroup(dgelist)
 
 # Convert row names to entrez gene ID
-symbolid <- with(Mouse2HumanTable, Mouse2HumanTable$MGI[match(row.names(csvcmp.cpm), Mouse2HumanTable$Entrez.Gene_ID)])
+symbolid <- with(mouseIDTable, mouseIDTable$MGI[match(row.names(csvcmp.cpm), mouseIDTable$Entrez.Gene_ID)])
 rownames(csvcmp.cpm) <- symbolid
 write.table(csvcmp.cpm, file = "avgCPM_forCXvCMP.txt", quote = FALSE, sep = '\t')
 ```
+__Table is written in python__
+
 
 Estimate dispersion with CMP defined as intercept
 
@@ -256,9 +255,6 @@ fit <- glmFit(dgelist, designMat)
 
 
 ```
-
-
-
 create ranked gene files for CMP subpopulations
 
 ```{r}
