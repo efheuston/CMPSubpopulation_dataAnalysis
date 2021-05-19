@@ -17,7 +17,7 @@ Raw data previously published in Heuston et al., 2018, is available to download 
 
 ## Principal component analysis of hematopoietic RNA-Seq profiles
 
-Transcriptional comparison of 11 populations. Each sample was sequenced in duplicate.  
+Transcriptional comparison of 11 populat2ions. Each sample was sequenced in duplicate.  
 * LSK  
 * CMP  
 * GMP  
@@ -34,12 +34,12 @@ Transcriptome alignments were performed in STAR, and read estimation performed i
 
 ### Load libraries
 
-```{r, setup, include=FALSE}
+```{r, include=FALSE}
 knitr::opts_knit$set(root.dir = '~/Desktop/scRNAanalysis_codetest/RSEM_resultsFiles/')
 ```
 
 
-```{r, warning=FALSE}
+```{r, results=FALSE, message=FALSE, warning=FALSE}
 library(tximport)
 library(TxDb.Mmusculus.UCSC.mm10.knownGene)
 library(edgeR)
@@ -107,13 +107,10 @@ Calculate library size
 ```{r}
 dgelist$samples$lib.size <- colSums(dgelist$counts)
 dgelist <- calcNormFactors(dgelist)
-```
-Figure 5A: PCA plot 
-
-```{r}	
 cts <- DESeq2::rlog(round(mstxi$counts), blind = TRUE)
 pca.cts <- prcomp(t(cts))
 ```
+###Figure 5A
 ```{r, fig.keep = TRUE}
 scores=data.frame(pca.cts$x)
 cols=ncol(scores)
