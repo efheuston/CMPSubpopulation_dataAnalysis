@@ -4,10 +4,12 @@
 \alias{bulk_population_expression_sets}
 \title{bulk_population_expression_sets}
 \usage{
-bulk_population_expression_sets(bulk.contrasts)
+bulk_population_expression_sets(bulk.contrasts, file.name)
 }
 \arguments{
 \item{bulk.contrasts}{set of contrasts to make}
+
+\item{file.name}{name of gmt file}
 }
 \value{
 

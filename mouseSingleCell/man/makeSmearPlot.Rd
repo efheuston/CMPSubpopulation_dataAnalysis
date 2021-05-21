@@ -14,6 +14,8 @@ makeSmearPlot(lrt, nameA = "nameA", nameB = "CMP", fc = FC, outname = outname)
 \item{nameB}{comparison string to describe  B}
 
 \item{fc}{fold-change threshold}
+
+\item{outname}{name to use for saved image}
 }
 \value{
 

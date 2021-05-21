@@ -14,6 +14,8 @@ adjust_palette_size(
 }
 \arguments{
 \item{object_length}{Num of parameters to color}
+
+\item{basic_color_palette}{vector of colors to start with}
 }
 \value{
 
