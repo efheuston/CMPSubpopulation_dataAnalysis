@@ -3,7 +3,9 @@
 #' @param lrt dge object
 #' @param nameA comparison string to describe A
 #' @param nameB comparison string to describe  B
+#' @param outname name to use for saved image
 #' @param fc fold-change threshold
+#'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggrepel geom_label_repel
 #' @return
@@ -42,7 +44,7 @@ makeSmearPlot <- function(lrt, nameA = 'nameA', nameB = 'CMP', fc = FC, outname 
 
 
 	# Save plot
-	png(filename = paste(outname, '-Intercept.png', sep = ''), height = 1600, width = 1600)
+	png(filename = outname, height = 1600, width = 1600)
 	plot(my.plot)
 	dev.off()
 

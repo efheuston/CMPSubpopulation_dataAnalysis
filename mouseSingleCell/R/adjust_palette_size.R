@@ -1,6 +1,8 @@
 #' adjust_palette_size
 #'
+#' @param basic_color_palette vector of colors to start with
 #' @param object_length Num of parameters to color
+#'
 #' @importFrom colorRamps primary.colors
 #' @return
 #' @export
