@@ -11,7 +11,7 @@ The data used in this study can be downloaded from the Gene Expression Omnibus a
 
 Previously published data from [Heuston et al., 2018](https://doi.org/10.1186/s13072-018-0195-z) can be downloaded from the [ValIdated Systematic IntegratiON](http://usevision.org/) or GEO.
 
-| BULK RNA |
+__BULK RNA__
 | Dataset | Read1 | Read2 | RSEM_estimation_file |
 | ------- | ----- | ----- | -------------------- |
 | C10r1 | - | - | - |
@@ -37,7 +37,7 @@ Previously published data from [Heuston et al., 2018](https://doi.org/10.1186/s1
 | iMkr1 | [Read_1](https://www.encodeproject.org/files/ENCFF993QUE/@@download/ENCFF993QUE.fastq.gz) | [Read_2](https://www.encodeproject.org/files/ENCFF349BJM/@@download/ENCFF349BJM.fastq.gz) | [RSEM](https://www.encodeproject.org/files/ENCFF553ZBZ/@@download/ENCFF553ZBZ.tsv) |
 | iMkr2 | [Read_1](https://www.encodeproject.org/files/ENCFF102BWR/@@download/ENCFF102BWR.fastq.gz) | [Read_2](https://www.encodeproject.org/files/ENCFF235XRM/@@download/ENCFF235XRM.fastq.gz) | [RSEM](https://www.encodeproject.org/files/ENCFF519AGI/@@download/ENCFF519AGI.tsv) |
 
-| BULK ATAC |
+__BULK ATAC__
 | Dataset | BigWig | HOMER_peak_file |
 | ------- | ------ | ------ |
 | C10r1 | - |  | - |
