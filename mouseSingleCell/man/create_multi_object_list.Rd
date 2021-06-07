@@ -10,7 +10,7 @@ create_multi_object_list(x)
 \item{x}{directory containing barcode, gene, and matrix files along the path /outs/filtered_feature_bc_matrix/}
 }
 \value{
-
+a multiobject list
 }
 \description{
 create_multi_object_list

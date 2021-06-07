@@ -18,7 +18,7 @@ makeSmearPlot(lrt, nameA = "nameA", nameB = "CMP", fc = FC, outname = outname)
 \item{outname}{name to use for saved image}
 }
 \value{
-
+smear plot
 }
 \description{
 makeSmearPlot

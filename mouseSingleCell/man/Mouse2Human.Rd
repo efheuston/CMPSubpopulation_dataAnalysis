@@ -10,7 +10,7 @@ Mouse2Human(MouseGenes)
 \item{MouseGenes}{list of mouse genes}
 }
 \value{
-
+table of gene identifiers
 }
 \description{
 Credits mainly to Dave Tang's blog (https://www.biostars.org/p/147484/)

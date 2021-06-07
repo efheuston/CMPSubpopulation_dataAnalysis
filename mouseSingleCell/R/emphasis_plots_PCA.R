@@ -9,7 +9,8 @@
 #'
 #' @import Seurat
 #'
-#' @return
+#' @return for given metadata variable, generates series of plots with each variable colored (i.e., red) and all others colored (i.e., black)
+#' @export
 #'
 emphasis_plots_PCA<-function(object, file_suffix, iterationSlot, background_color = "black", emphasis_color = "red", ...){
 	iteration_vector<-(unique(FetchData(object = object, vars.all = iterationSlot)[,1]))

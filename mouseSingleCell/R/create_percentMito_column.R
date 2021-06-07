@@ -3,7 +3,8 @@
 #' @param my_object object of Seurat class <=v2.4.3
 #' @importFrom Matrix colSums
 #' @import Seurat
-#' @return
+#' @return new metadata column "percent.mito" in SeuratObject
+#' @export
 #'
 create_percentMito_column<-function(my_object){
 	mito.genes<-grep(pattern = "^MT-", x = rownames(x=my_object@data), value = TRUE, ignore.case = TRUE)

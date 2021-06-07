@@ -27,7 +27,7 @@ emphasis_plots_PCA(
 \item{...}{parameters passed on to png_plotFunction}
 }
 \value{
-
+for given metadata variable, generates series of plots with each variable colored (i.e., red) and all others colored (i.e., black)
 }
 \description{
 emphasis_plots_PCA

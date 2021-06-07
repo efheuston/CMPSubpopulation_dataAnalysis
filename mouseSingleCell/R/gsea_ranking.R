@@ -7,7 +7,7 @@
 #' @param outname prefix for generated files
 #' @param FDRmax max FDR to allow
 #'
-#' @return
+#' @return file withcolumn HsHmlg identifier and logFC value at or below FDR threshold
 #' @export
 #'
 gsea_ranking <- function(lrt, outname, FDRmax = 0.05){

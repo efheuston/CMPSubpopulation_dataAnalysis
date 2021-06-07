@@ -18,7 +18,7 @@ adjust_palette_size(
 \item{basic_color_palette}{vector of colors to start with}
 }
 \value{
-
+list of HEX colors
 }
 \description{
 adjust_palette_size

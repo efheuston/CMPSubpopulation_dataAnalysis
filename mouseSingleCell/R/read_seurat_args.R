@@ -3,7 +3,7 @@
 #' @return
 #'
 #'
-read_seurat_args<-function(){
+read_seurat_args<-function(data, projectName, genome, max_pcs, resolutionList, vars_to_regress){
 	args<-paste(unlist(args), collapse = " ")
 	args<-unlist(strsplit(args, "--"))[-1]
 	option_arguments<-sapply(args, function(x){

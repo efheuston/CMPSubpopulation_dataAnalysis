@@ -4,13 +4,13 @@
 \alias{read_10XGenomics_data}
 \title{read_10XGenomics_data}
 \usage{
-read_10XGenomics_data(x)
+read_10XGenomics_data(sample.list)
 }
 \arguments{
-\item{x}{directory containing gene, barcode, and matrix files along the path}
+\item{sample.list}{list of sample names that contain gene, barcode, and matrix files the directory}
 }
 \value{
-
+named character of sample names and directory paths
 }
 \description{
 read_10XGenomics_data

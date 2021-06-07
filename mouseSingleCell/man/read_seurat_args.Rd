@@ -4,7 +4,14 @@
 \alias{read_seurat_args}
 \title{read_seurat_args}
 \usage{
-read_seurat_args()
+read_seurat_args(
+  data,
+  projectName,
+  genome,
+  max_pcs,
+  resolutionList,
+  vars_to_regress
+)
 }
 \value{
 

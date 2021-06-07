@@ -14,7 +14,7 @@ gsea_ranking(lrt, outname, FDRmax = 0.05)
 \item{FDRmax}{max FDR to allow}
 }
 \value{
-
+file withcolumn HsHmlg identifier and logFC value at or below FDR threshold
 }
 \description{
 generate ranked subpopulation gene lists

@@ -4,7 +4,7 @@
 #' @param object_length Num of parameters to color
 #'
 #' @importFrom colorRamps primary.colors
-#' @return
+#' @return list of HEX colors
 #' @export
 #'
 adjust_palette_size <- function(object_length, basic_color_palette = c("#cb4bbe",

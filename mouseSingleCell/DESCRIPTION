@@ -30,5 +30,6 @@ Imports:
     tximport,
     Matrix,
     limma,
+    dplyr,
     org.Mm.eg.db,
     scatterplot3d

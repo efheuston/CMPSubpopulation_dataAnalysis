@@ -10,7 +10,7 @@ create_percentMito_column(my_object)
 \item{my_object}{object of Seurat class <=v2.4.3}
 }
 \value{
-
+new metadata column "percent.mito" in SeuratObject
 }
 \description{
 create_percentMito_column

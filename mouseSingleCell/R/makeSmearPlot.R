@@ -8,7 +8,7 @@
 #'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggrepel geom_label_repel
-#' @return
+#' @return smear plot
 #' @export
 #'
 makeSmearPlot <- function(lrt, nameA = 'nameA', nameB = 'CMP', fc = FC, outname = outname){
